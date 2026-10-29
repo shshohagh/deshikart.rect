@@ -1,0 +1,6 @@
+{
+  "name": "DeshiKart POS & Checkout",
+  "description": "High-conversion mobile POS and single-product e-commerce checkout client for 1.5L Borosilicate Glass Drinking Bottle with Laravel REST API integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
