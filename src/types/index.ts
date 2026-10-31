@@ -103,6 +103,7 @@ export interface OrderRecord {
     image: string;
   }[];
   subtotal: number;
+  bulkDiscount?: number;
   shippingFee: number;
   shippingOption: 'inside_dhaka' | 'outside_dhaka';
   total: number;

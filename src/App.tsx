@@ -18,6 +18,7 @@ import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { PosTerminalModal } from './components/PosTerminalModal';
 import { ApiConfigModal } from './components/ApiConfigModal';
 import { OrderTrackingSection } from './components/OrderTrackingSection';
+import { RecentOrdersSection } from './components/RecentOrdersSection';
 import { PRODUCT_DATA, SHIPPING_OPTIONS } from './data/productData';
 import {
   CustomerFormData,
@@ -132,6 +133,14 @@ export default function App() {
     return selectedItems.reduce((sum, item) => sum + item.variant.price * item.quantity, 0);
   }, [selectedItems]);
 
+  // Bulk Discount Calculation (10% savings if total items > 3)
+  const bulkDiscount = useMemo(() => {
+    if (totalItemsCount > 3) {
+      return Math.round(subtotal * 0.1);
+    }
+    return 0;
+  }, [totalItemsCount, subtotal]);
+
   // Shipping Fee
   const currentShippingOption = useMemo(() => {
     return (
@@ -142,10 +151,17 @@ export default function App() {
 
   const shippingFee = currentShippingOption.fee;
 
-  // Grand Total Calculation (matches screenshot: 1,290 + 70 = 1,360.00৳)
+  // Grand Total Calculation (matches screenshot: 1,290 + 70 = 1,360.00৳; or discounted if > 3 items)
   const total = useMemo(() => {
-    return subtotal + shippingFee;
-  }, [subtotal, shippingFee]);
+    return Math.max(0, subtotal - bulkDiscount + shippingFee);
+  }, [subtotal, bulkDiscount, shippingFee]);
+
+  // Last 3-5 confirmed orders for social proof section
+  const recentConfirmedOrders = useMemo(() => {
+    return orders
+      .filter((o) => ['confirmed', 'processing', 'shipped', 'delivered'].includes(o.status))
+      .slice(0, 5);
+  }, [orders]);
 
   // Form Field Change Handler
   const handleFormChange = (field: keyof CustomerFormData, value: string) => {
@@ -202,6 +218,7 @@ export default function App() {
         items: selectedItems,
         shippingOption: shippingOptionId,
         shippingFee: shippingFee,
+        bulkDiscount: bulkDiscount,
         paymentMethod: paymentMethod,
         source: 'web_checkout',
       });
@@ -346,11 +363,12 @@ export default function App() {
             onChange={handleFormChange}
           />
 
-          {/* 6. Order Summary Collapsible with live total */}
+          {/* 6. Order Summary Collapsible with live total & Bulk Discount badge */}
           <OrderSummary
             selectedItems={selectedItems}
             shippingFee={shippingFee}
             subtotal={subtotal}
+            bulkDiscount={bulkDiscount}
             total={total}
           />
 
@@ -379,6 +397,23 @@ export default function App() {
           <OrderTrackingSection
             onReOrderClick={handleScrollToOrderForm}
             recentPhone={createdOrder ? createdOrder.customer.phone : customerForm.phone}
+          />
+
+          {/* 11. Recent Orders Section with status filter and copy tracking ID */}
+          <RecentOrdersSection
+            orders={orders}
+            onTrackOrder={(phone) => {
+              const el = document.getElementById('order-tracking');
+              el?.scrollIntoView({ behavior: 'smooth' });
+              const input = el?.querySelector('input[type="tel"]') as HTMLInputElement;
+              if (input) {
+                input.value = phone;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                // Trigger form submit
+                const form = el?.querySelector('form') as HTMLFormElement;
+                form?.requestSubmit();
+              }
+            }}
           />
         </main>
 

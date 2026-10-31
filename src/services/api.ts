@@ -14,12 +14,12 @@ const DEFAULT_CONFIG: LaravelApiConfig = {
   lastSyncTimestamp: undefined,
 };
 
-// Initial realistic demo order data for POS management
+// Initial realistic demo order data for POS management & storefront proof
 const INITIAL_DEMO_ORDERS: OrderRecord[] = [
   {
     id: 'ord-1001',
     orderNumber: 'DK-2026-8941',
-    createdAt: new Date(Date.now() - 3600000 * 3).toISOString(),
+    createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(), // 15 mins ago
     customer: {
       name: 'Tanvir Hossain',
       phone: '01712345678',
@@ -46,12 +46,12 @@ const INITIAL_DEMO_ORDERS: OrderRecord[] = [
     status: 'confirmed',
     source: 'web_checkout',
     syncedToApi: true,
-    syncedAt: new Date(Date.now() - 3600000 * 2.8).toISOString(),
+    syncedAt: new Date(Date.now() - 1000 * 60 * 14).toISOString(),
   },
   {
     id: 'ord-1002',
     orderNumber: 'DK-2026-8942',
-    createdAt: new Date(Date.now() - 3600000 * 8).toISOString(),
+    createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(), // 45 mins ago
     customer: {
       name: 'Sabina Yasmin',
       phone: '01898765432',
@@ -87,7 +87,142 @@ const INITIAL_DEMO_ORDERS: OrderRecord[] = [
     status: 'processing',
     source: 'web_checkout',
     syncedToApi: true,
-    syncedAt: new Date(Date.now() - 3600000 * 7.5).toISOString(),
+    syncedAt: new Date(Date.now() - 1000 * 60 * 40).toISOString(),
+  },
+  {
+    id: 'ord-1003',
+    orderNumber: 'DK-2026-8943',
+    createdAt: new Date(Date.now() - 1000 * 60 * 95).toISOString(), // ~1.5 hrs ago
+    customer: {
+      name: 'Dr. Rafiqul Islam',
+      phone: '01755123456',
+      district: 'Sylhet',
+      address: 'House 14, Housing Estate, Amberkhana, Sylhet',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 2,
+        total: 2580,
+        image: '/assets/images/variant_black.jpg',
+      },
+      {
+        variantId: 'green',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Green',
+        colorName: 'Green',
+        price: 1290,
+        quantity: 2,
+        total: 2580,
+        image: '/assets/images/variant_green.jpg',
+      },
+    ],
+    subtotal: 5160,
+    bulkDiscount: 516, // 10% bulk discount applied for 4 items!
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 4774,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'pending',
+    source: 'web_checkout',
+    syncedToApi: true,
+    syncedAt: new Date(Date.now() - 1000 * 60 * 90).toISOString(),
+  },
+  {
+    id: 'ord-1004',
+    orderNumber: 'DK-2026-8944',
+    createdAt: new Date(Date.now() - 1000 * 60 * 180).toISOString(), // 3 hrs ago
+    customer: {
+      name: 'Farzana Chowdhury',
+      phone: '01912987654',
+      district: 'Dhaka',
+      address: 'Road 7/A, Dhanmondi R/A, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'white',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - White',
+        colorName: 'White',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_white.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'shipped',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1005',
+    orderNumber: 'DK-2026-8945',
+    createdAt: new Date(Date.now() - 1000 * 60 * 360).toISOString(), // 6 hrs ago
+    customer: {
+      name: 'Mahmudul Hasan',
+      phone: '01678123987',
+      district: 'Rajshahi',
+      address: 'Near Shaheb Bazar Zero Point, Rajshahi',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1006',
+    orderNumber: 'DK-2026-8946',
+    createdAt: new Date(Date.now() - 1000 * 60 * 520).toISOString(), // 8.6 hrs ago
+    customer: {
+      name: 'Nusrat Jahan',
+      phone: '01711223344',
+      district: 'Gazipur',
+      address: 'Board Bazar, Gazipur',
+    },
+    items: [
+      {
+        variantId: 'green',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Green',
+        colorName: 'Green',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_green.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
   },
 ];
 
@@ -251,6 +386,19 @@ class LaravelApiService {
   }
 
   /**
+   * Get recent confirmed orders (3-5 orders) for storefront social proof
+   */
+  public getRecentConfirmedOrders(limit = 5): OrderRecord[] {
+    const orders = this.getOrders();
+    const confirmedOrders = orders.filter((o) =>
+      ['confirmed', 'processing', 'shipped', 'delivered'].includes(o.status)
+    );
+    return confirmedOrders
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, Math.min(5, Math.max(3, limit)));
+  }
+
+  /**
    * Submit an order either live to Laravel API or safely queue offline
    */
   public async submitOrder(orderPayload: {
@@ -261,6 +409,7 @@ class LaravelApiService {
     }[];
     shippingOption: 'inside_dhaka' | 'outside_dhaka';
     shippingFee: number;
+    bulkDiscount?: number;
     paymentMethod: 'cash_on_delivery' | 'bkash' | 'nagad';
     source: 'web_checkout' | 'android_pos';
   }): Promise<{ success: boolean; order: OrderRecord; message: string }> {
@@ -283,7 +432,8 @@ class LaravelApiService {
       (sum, item) => sum + item.variant.price * item.quantity,
       0
     );
-    const total = subtotal + orderPayload.shippingFee;
+    const bulkDiscount = orderPayload.bulkDiscount || 0;
+    const total = Math.max(0, subtotal - bulkDiscount + orderPayload.shippingFee);
     const randomDigits = Math.floor(1000 + Math.random() * 9000);
     const orderNumber = `DK-${new Date().getFullYear()}-${randomDigits}`;
 
@@ -302,6 +452,7 @@ class LaravelApiService {
         image: i.variant.image,
       })),
       subtotal,
+      bulkDiscount,
       shippingFee: orderPayload.shippingFee,
       shippingOption: orderPayload.shippingOption,
       total,

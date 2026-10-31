@@ -15,6 +15,21 @@
   font-variant-numeric: tabular-nums;
 }
 
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* 58mm & 80mm thermal receipt printing support for POS terminal */
 @media print {
   body * {
