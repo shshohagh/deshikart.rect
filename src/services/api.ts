@@ -5,6 +5,17 @@ const STORAGE_KEYS = {
   CONFIG: 'dk_laravel_api_config',
   ORDERS: 'dk_orders_store',
   OFFLINE_QUEUE: 'dk_offline_queue',
+  SEED_VERSION: 'dk_orders_seed_v2',
+};
+
+const getPastDayTimestamp = (daysAgo: number, hour = 14, minute = 0): string => {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  d.setHours(hour, minute, 0, 0);
+  if (daysAgo === 0 && d.getTime() > Date.now()) {
+    return new Date(Date.now() - 1000 * 60 * 30).toISOString();
+  }
+  return d.toISOString();
 };
 
 const DEFAULT_CONFIG: LaravelApiConfig = {
@@ -224,6 +235,473 @@ const INITIAL_DEMO_ORDERS: OrderRecord[] = [
     source: 'web_checkout',
     syncedToApi: true,
   },
+  // Orders distributed across the past 6 days for 7-day status visualization
+  {
+    id: 'ord-1007',
+    orderNumber: 'DK-2026-8939',
+    createdAt: getPastDayTimestamp(1, 16, 20),
+    customer: {
+      name: 'Imran Chowdhury',
+      phone: '01722334455',
+      district: 'Dhaka',
+      address: 'Banani Road 12, Block E, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 2,
+        total: 2580,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 2580,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 2650,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1008',
+    orderNumber: 'DK-2026-8938',
+    createdAt: getPastDayTimestamp(1, 11, 45),
+    customer: {
+      name: 'Sumaiya Akter',
+      phone: '01845671234',
+      district: 'Cumilla',
+      address: 'Kandirpar Central Road, Cumilla',
+    },
+    items: [
+      {
+        variantId: 'white',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - White',
+        colorName: 'White',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_white.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'shipped',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1009',
+    orderNumber: 'DK-2026-8937',
+    createdAt: getPastDayTimestamp(1, 18, 10),
+    customer: {
+      name: 'Arifur Rahman',
+      phone: '01911223344',
+      district: 'Khulna',
+      address: 'Sonadanga R/A, Phase 2, Khulna',
+    },
+    items: [
+      {
+        variantId: 'green',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Green',
+        colorName: 'Green',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_green.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'confirmed',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1010',
+    orderNumber: 'DK-2026-8934',
+    createdAt: getPastDayTimestamp(2, 13, 15),
+    customer: {
+      name: 'Mehedi Hasan',
+      phone: '01733445566',
+      district: 'Dhaka',
+      address: 'Mirpur DOHS, Avenue 4, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1011',
+    orderNumber: 'DK-2026-8933',
+    createdAt: getPastDayTimestamp(2, 17, 40),
+    customer: {
+      name: 'Tasnim Tabassum',
+      phone: '01688990011',
+      district: 'Narayanganj',
+      address: 'Chashara, BB Road, Narayanganj',
+    },
+    items: [
+      {
+        variantId: 'white',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - White',
+        colorName: 'White',
+        price: 1290,
+        quantity: 2,
+        total: 2580,
+        image: '/assets/images/variant_white.jpg',
+      },
+    ],
+    subtotal: 2580,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 2650,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'processing',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1012',
+    orderNumber: 'DK-2026-8931',
+    createdAt: getPastDayTimestamp(3, 12, 30),
+    customer: {
+      name: 'Kamrul Islam',
+      phone: '01555667788',
+      district: 'Bogura',
+      address: 'Satmatha Sherpur Road, Bogura',
+    },
+    items: [
+      {
+        variantId: 'green',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Green',
+        colorName: 'Green',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_green.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1013',
+    orderNumber: 'DK-2026-8930',
+    createdAt: getPastDayTimestamp(3, 15, 50),
+    customer: {
+      name: 'Nadia Sultana',
+      phone: '01744556677',
+      district: 'Dhaka',
+      address: 'Bashundhara R/A, Block C, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'shipped',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1014',
+    orderNumber: 'DK-2026-8929',
+    createdAt: getPastDayTimestamp(3, 19, 10),
+    customer: {
+      name: 'Sajidul Karim',
+      phone: '01812349876',
+      district: 'Barishal',
+      address: 'Sadar Road, Barishal',
+    },
+    items: [
+      {
+        variantId: 'white',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - White',
+        colorName: 'White',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_white.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'pending',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1015',
+    orderNumber: 'DK-2026-8925',
+    createdAt: getPastDayTimestamp(4, 14, 20),
+    customer: {
+      name: 'Faisal Mahmud',
+      phone: '01766778899',
+      district: 'Mymensingh',
+      address: 'Ganginar Par, Mymensingh',
+    },
+    items: [
+      {
+        variantId: 'green',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Green',
+        colorName: 'Green',
+        price: 1290,
+        quantity: 2,
+        total: 2580,
+        image: '/assets/images/variant_green.jpg',
+      },
+    ],
+    subtotal: 2580,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 2710,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1016',
+    orderNumber: 'DK-2026-8924',
+    createdAt: getPastDayTimestamp(4, 17, 5),
+    customer: {
+      name: 'Roksana Begum',
+      phone: '01955443322',
+      district: 'Dhaka',
+      address: 'Banasree Block B, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'confirmed',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1017',
+    orderNumber: 'DK-2026-8920',
+    createdAt: getPastDayTimestamp(5, 11, 10),
+    customer: {
+      name: 'Tariqul Islam',
+      phone: '01799887766',
+      district: 'Chattogram',
+      address: 'GEC Circle, Chattogram',
+    },
+    items: [
+      {
+        variantId: 'white',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - White',
+        colorName: 'White',
+        price: 1290,
+        quantity: 4,
+        total: 5160,
+        image: '/assets/images/variant_white.jpg',
+      },
+    ],
+    subtotal: 5160,
+    bulkDiscount: 516,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 4774,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'android_pos',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1018',
+    orderNumber: 'DK-2026-8919',
+    createdAt: getPastDayTimestamp(5, 16, 40),
+    customer: {
+      name: 'Ashraf Ali',
+      phone: '01611224466',
+      district: 'Rangpur',
+      address: 'Jahaj Company More, Rangpur',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1019',
+    orderNumber: 'DK-2026-8918',
+    createdAt: getPastDayTimestamp(5, 19, 25),
+    customer: {
+      name: 'Mitu Rahman',
+      phone: '01833445511',
+      district: 'Dhaka',
+      address: 'Mohammadpur Tajmahal Road, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'green',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Green',
+        colorName: 'Green',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_green.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'pending',
+    status: 'shipped',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1020',
+    orderNumber: 'DK-2026-8914',
+    createdAt: getPastDayTimestamp(6, 15, 0),
+    customer: {
+      name: 'Jahangir Alam',
+      phone: '01777889900',
+      district: 'Jessore',
+      address: 'Rail Road, Jessore',
+    },
+    items: [
+      {
+        variantId: 'black',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - Black',
+        colorName: 'Black',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_black.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 130,
+    shippingOption: 'outside_dhaka',
+    total: 1420,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
+  {
+    id: 'ord-1021',
+    orderNumber: 'DK-2026-8913',
+    createdAt: getPastDayTimestamp(6, 18, 15),
+    customer: {
+      name: 'Shabnam Parvin',
+      phone: '01922334477',
+      district: 'Dhaka',
+      address: 'Wari Rankin Street, Dhaka',
+    },
+    items: [
+      {
+        variantId: 'white',
+        name: '1.5L Borosilicate Glass Drinking Bottle with Straw & Removable Filter - White',
+        colorName: 'White',
+        price: 1290,
+        quantity: 1,
+        total: 1290,
+        image: '/assets/images/variant_white.jpg',
+      },
+    ],
+    subtotal: 1290,
+    shippingFee: 70,
+    shippingOption: 'inside_dhaka',
+    total: 1360,
+    paymentMethod: 'cash_on_delivery',
+    paymentStatus: 'paid',
+    status: 'delivered',
+    source: 'web_checkout',
+    syncedToApi: true,
+  },
 ];
 
 class LaravelApiService {
@@ -288,10 +766,23 @@ class LaravelApiService {
   public getOrders(): OrderRecord[] {
     try {
       const stored = localStorage.getItem(STORAGE_KEYS.ORDERS);
+      const seedVersion = localStorage.getItem(STORAGE_KEYS.SEED_VERSION);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed: OrderRecord[] = JSON.parse(stored);
+        if (!seedVersion) {
+          const existingIds = new Set(parsed.map((o) => o.id));
+          const missingSeeds = INITIAL_DEMO_ORDERS.filter((o) => !existingIds.has(o.id));
+          const merged = [...parsed, ...missingSeeds].sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(merged));
+          localStorage.setItem(STORAGE_KEYS.SEED_VERSION, '1');
+          return merged;
+        }
+        return parsed;
       }
       localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(INITIAL_DEMO_ORDERS));
+      localStorage.setItem(STORAGE_KEYS.SEED_VERSION, '1');
       return INITIAL_DEMO_ORDERS;
     } catch (e) {
       console.error('Failed to retrieve orders', e);
